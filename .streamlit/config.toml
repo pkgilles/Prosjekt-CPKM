@@ -1,0 +1,7 @@
+# .streamlit/config.toml
+[theme]
+base = "dark"
+primaryColor = "#1abc9c"  # En harmonisk, myk grønnfarge
+backgroundColor = "#1e1e1e"  # Mørkere bakgrunn
+secondaryBackgroundColor = "#2e2e2e"  # Litt lysere for kontrast i paneler
+textColor = "#e0e0e0"  # Lys grå for mindre kontrast, men fortsatt lesbart

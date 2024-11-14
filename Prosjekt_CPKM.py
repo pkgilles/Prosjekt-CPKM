@@ -56,7 +56,7 @@ stjernevalg = st.multiselect(
 filtered_data = data[data['Stjerner'].isin(stjernevalg)]
 
 # Create a folium map centered over Europe with a dark theme
-m = folium.Map(location=[54.5260, 15.2551], zoom_start=4, tiles="CartoDB dark_matter")
+m = folium.Map(location=[59.9139, 10.7522], zoom_start=4, tiles="CartoDB dark_matter")
 
 # Define the color to match the filter boxes
 marker_color = "#1abc9c"  # Same as the primary color in config.toml

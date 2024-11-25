@@ -35,7 +35,7 @@ restaurants = [
     {'Restaurant': 'Kitchen Table', 'Stjerner': 2, 'Lengdegrad': 51.52051886488125, 'Breddegrad': -0.13604940418496586},
     {'Restaurant': 'Casa de Chá de Boa Nova', 'Stjerner': 2, 'Lengdegrad': 41.203092957202905, 'Breddegrad': -8.714882495958829},
     {'Restaurant': 'Belcanto', 'Stjerner': 2, 'Lengdegrad': 38.71025006629505, 'Breddegrad': -9.141476330999446},
-    {'Restaurant': 'Jatak', 'Stjerner': 1, 'Lengdegrad': 55.6871699325071, 'Breddegrad': 12.548033871389647}
+    {'Restaurant': 'Jatak', 'Stjerner': 1, 'Lengdegrad': 55.6871699325071, 'Breddegrad': 12.548033871389647},
     {'Restaurant': 'Ricard Camarena', 'Stjerner': 2, 'Lengdegrad': 39.48578556565042, 'Breddegrad': -0.38364874472450533}
 ]
 

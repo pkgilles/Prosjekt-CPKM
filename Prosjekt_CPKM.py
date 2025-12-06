@@ -37,6 +37,9 @@ restaurants = [
     {'Restaurant': 'Belcanto', 'Stjerner': 2, 'Lengdegrad': 38.71025006629505, 'Breddegrad': -9.141476330999446, 'Besøk': 1, 'Sum stjerner': 2},
     {'Restaurant': 'Jatak', 'Stjerner': 1, 'Lengdegrad': 55.6871699325071, 'Breddegrad': 12.548033871389647, 'Besøk': 1, 'Sum stjerner': 1},
     {'Restaurant': 'Ricard Camarena', 'Stjerner': 2, 'Lengdegrad': 39.48578556565042, 'Breddegrad': -0.38364874472450533, 'Besøk': 1, 'Sum stjerner': 2},
+    {'Restaurant': 'Yugen', 'Stjerner': 2, 'Lengdegrad': 34.66494703388733, 'Breddegrad': 135.52174529818703, 'Besøk': 1, 'Sum stjerner': 2},
+    {'Restaurant': 'Velrosier', 'Stjerner': 1, 'Lengdegrad': 35.0026325147605, 'Breddegrad': 135.76882619820134, 'Besøk': 1, 'Sum stjerner': 1},
+    {'Restaurant': 'Florilege', 'Stjerner': 2, 'Lengdegrad': 35.66174874281927, 'Breddegrad': 139.74353242706522, 'Besøk': 1, 'Sum stjerner': 2},
 ]
 
 data = pd.DataFrame(restaurants)

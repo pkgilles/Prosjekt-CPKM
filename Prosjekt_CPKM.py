@@ -3,7 +3,10 @@ import pandas as pd
 import folium
 from streamlit_folium import st_folium
 
-# Load the restaurant data
+# Sideoppsett (må vera fyrste Streamlit-kall)
+st.set_page_config(page_title="Michelin-reisa", page_icon="⭐", layout="wide")
+
+# Restaurantdata
 # Breddegrad = latitude, Lengdegrad = longitude
 restaurants = [
     {'Restaurant': 'Maaemo', 'Stjerner': 3, 'Breddegrad': 59.907647183418746, 'Lengdegrad': 10.75813998319409, 'Besøk': 2, 'Sum stjerner': 6},
@@ -12,7 +15,7 @@ restaurants = [
     {'Restaurant': 'Kontrast', 'Stjerner': 2, 'Breddegrad': 59.922982017962504, 'Lengdegrad': 10.751167162303334, 'Besøk': 2, 'Sum stjerner': 3},
     {'Restaurant': 'Chapter One', 'Stjerner': 1, 'Breddegrad': 53.354313, 'Lengdegrad': -6.2641001, 'Besøk': 1, 'Sum stjerner': 1},
     {'Restaurant': 'Middag Paris', 'Stjerner': 1, 'Breddegrad': 48.86580095415907, 'Lengdegrad': 2.3196169323413423, 'Besøk': 1, 'Sum stjerner': 1},
-    {'Restaurant': 'Il Gallo D\'oro', 'Stjerner': 1, 'Breddegrad': 32.63850818472831, 'Lengdegrad': -16.926428884070905, 'Besøk': 1, 'Sum stjerner': 1},
+    {'Restaurant': "Il Gallo D'oro", 'Stjerner': 1, 'Breddegrad': 32.63850818472831, 'Lengdegrad': -16.926428884070905, 'Besøk': 1, 'Sum stjerner': 1},
     {'Restaurant': 'Restaurant Opus', 'Stjerner': 1, 'Breddegrad': 48.20143884034287, 'Lengdegrad': 16.372871288311156, 'Besøk': 1, 'Sum stjerner': 1},
     {'Restaurant': 'Disfrutar', 'Stjerner': 2, 'Breddegrad': 41.38782363695626, 'Lengdegrad': 2.153204200226883, 'Besøk': 1, 'Sum stjerner': 2},
     {'Restaurant': 'Alma', 'Stjerner': 2, 'Breddegrad': 38.71047126916178, 'Lengdegrad': -9.141003188669877, 'Besøk': 1, 'Sum stjerner': 2},
@@ -41,38 +44,36 @@ restaurants = [
     {'Restaurant': 'Velrosier', 'Stjerner': 1, 'Breddegrad': 35.0026325147605, 'Lengdegrad': 135.76882619820134, 'Besøk': 1, 'Sum stjerner': 1},
     {'Restaurant': 'Florilege', 'Stjerner': 2, 'Breddegrad': 35.66174874281927, 'Lengdegrad': 139.74353242706522, 'Besøk': 1, 'Sum stjerner': 2},
     {'Restaurant': 'Restaurant 212', 'Stjerner': 2, 'Breddegrad': 52.365882, 'Lengdegrad': 4.900279, 'Besøk': 1, 'Sum stjerner': 2},
-    {'Restaurant': 'À L\'aise', 'Stjerner': 1, 'Breddegrad': 59.929166, 'Lengdegrad': 10.709721, 'Besøk': 1, 'Sum stjerner': 1},
+    {'Restaurant': "À L'aise", 'Stjerner': 1, 'Breddegrad': 59.929166, 'Lengdegrad': 10.709721, 'Besøk': 1, 'Sum stjerner': 1},
     {'Restaurant': 'La Scène', 'Stjerner': 2, 'Breddegrad': 48.872063, 'Lengdegrad': 2.314564, 'Besøk': 1, 'Sum stjerner': 2},
 ]
 
 data = pd.DataFrame(restaurants)
 
-# Set up the Streamlit app
+# Overskrift
 st.markdown("<h1 style='text-align: center;'>Christina og Per Kristians Michelin-reise</h1>", unsafe_allow_html=True)
 st.write("Her er alle restaurantene vi har besøkt:")
 
-# Filter selection for star ratings
+# Filter for stjerner
 stjernevalg = st.multiselect(
     "Velg antall stjerner for restauranter å vise:",
     options=[1, 2, 3],
-    default=[1, 2, 3]
+    default=[1, 2, 3],
 )
 
-# Filter data based on selected star ratings
 filtered_data = data[data['Stjerner'].isin(stjernevalg)]
 
-# Create a folium map centered over Europe with a dark theme
-m = folium.Map(location=[60, 40], zoom_start=4, tiles="CartoDB dark_matter")
+# Fargekoding: bronse / sølv / gull for 1 / 2 / 3 stjerner
+stjernefarger = {1: "#cd7f32", 2: "#c0c0c0", 3: "#ffd700"}
 
-# Define the color to match the filter boxes
-marker_color = "#1abc9c"  # Same as the primary color in config.toml
+# Kart med mørkt tema
+m = folium.Map(location=[50, 15], zoom_start=4, tiles="CartoDB dark_matter")
 
-# Add a marker for each restaurant in the filtered data
 for idx, row in filtered_data.iterrows():
     popup_content = f"""
     <div style="width: 250px; font-size: 16px; background-color: #333333; color: #e0e0e0; padding: 10px; border-radius: 5px;">
         <strong>{row['Restaurant']}</strong><br>
-        Stjerner: {row['Stjerner']}<br>
+        Stjerner: {'⭐' * row['Stjerner']}<br>
         Besøk: {row['Besøk']}<br>
         Totalt: {row['Sum stjerner']}
     </div>
@@ -80,20 +81,29 @@ for idx, row in filtered_data.iterrows():
     folium.Marker(
         location=[row['Breddegrad'], row['Lengdegrad']],
         popup=folium.Popup(popup_content, max_width=300),
-        icon=folium.Icon(icon="star", icon_color=marker_color, color="white", prefix="fa")  # Green star icon
+        tooltip=row['Restaurant'],
+        icon=folium.Icon(
+            icon="star",
+            icon_color=stjernefarger[row['Stjerner']],
+            color="white",
+            prefix="fa",
+        ),
     ).add_to(m)
 
-# Display the map in Streamlit
-st_folium(m, width=1450)
+# Zoom kartet slik at alle valde restaurantar er synlege
+if not filtered_data.empty:
+    m.fit_bounds(
+        filtered_data[['Breddegrad', 'Lengdegrad']].values.tolist(),
+        padding=(30, 30),
+    )
 
-# Display summary statistics below the map
-total_restaurants = filtered_data.shape[0]
-total_stars = filtered_data['Sum stjerner'].sum()
-total_unique_stars = filtered_data['Stjerner'].sum()
-total_visits = filtered_data['Besøk'].sum()
+# Vis kartet (responsivt, og utan omlasting ved panorering/zoom)
+st_folium(m, use_container_width=True, returned_objects=[])
 
-st.write("### Oppsummering:")
-st.write(f"Antall restauranter besøkt: {total_restaurants}")
-st.write(f"Totalt antall stjerner: {total_stars}")
-st.write(f"Totalt unike stjerner: {total_unique_stars}")
-st.write(f"Totalt besøk: {total_visits}")
+# Oppsummering som nøkkeltal
+st.write("### Oppsummering")
+kol1, kol2, kol3, kol4 = st.columns(4)
+kol1.metric("Restauranter besøkt", filtered_data.shape[0])
+kol2.metric("Stjerner totalt", int(filtered_data['Sum stjerner'].sum()))
+kol3.metric("Stjerner (uten gjentak)", int(filtered_data['Stjerner'].sum()))
+kol4.metric("Antall besøk", int(filtered_data['Besøk'].sum()))
